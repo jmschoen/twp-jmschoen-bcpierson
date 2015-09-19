@@ -17,6 +17,6 @@ public class Initialization {
         
        // UI userInterface = new UI();
 		//UI.launch(args);
-		userInterface.outputData(r.getUsername());
+		//userInterface.outputData(r.getUsername());
 	}
 }
