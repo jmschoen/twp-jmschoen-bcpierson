@@ -3,9 +3,8 @@ package edu.bsu.cs222.twp;
 public class Initialization {
 	public static void main(String[] args){
 		Revision r = new Revision();
+		XMLParser x = new XMLParser();
 		System.out.println(r.getUsername());
-		
-		
 		new Thread() {
             @Override
             public void run() {
@@ -13,10 +12,6 @@ public class Initialization {
             }
         }.start();
         UI userInterface = UI.waitForStartUpTest();
-       //.outputData();
-        
-       // UI userInterface = new UI();
-		//UI.launch(args);
-		//userInterface.outputData(r.getUsername());
+        x.parseXML(new String());
 	}
 }
