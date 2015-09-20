@@ -21,14 +21,15 @@ import javax.xml.transform.stream.StreamResult;
 
 public class WikipediaConnection {
 	
-	public static void main(String[] args) throws IOException, ParserConfigurationException, SAXException, TransformerException{
-		URLConnection connection = connectToWikipedia();
+	public static String getXMLFileAsString(String search) throws IOException, ParserConfigurationException, SAXException, TransformerException{
+		//create URL
+		URLConnection connection = connectToWikipedia(new URL("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects="));
 		Document document = readXmlDocumentFrom(connection);
-		System.out.println(transformXMLDocumentToString(document));
+		return transformXMLDocumentToString(document);
 	}
-	private static URLConnection connectToWikipedia() throws IOException {
-		URL url = new URL(
-				"https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects=");
+	private static URLConnection connectToWikipedia(URL url) throws IOException {
+		//URL url = new URL(
+		//		"https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects=");
 		URLConnection connection = url.openConnection();
 		connection.setRequestProperty("User-Agent",
 				"CS222TwoWeekProject/0.0.1 (http://www.cs.bsu.edu/homepages/pvg/courses/cs222Fa15/#!/two-week-project; bcpierson@bsu.edu)");

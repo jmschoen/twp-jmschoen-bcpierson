@@ -88,9 +88,7 @@ public class UI extends Application{
 	    		setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						//String selected = optionsComboBox.getSelectionModel().getSelectedItem());
-						//String translation = pirateTranslator.translate(inputField.getText());
-						//outputData(r.getUsername());						
+						//ui connect to
 					}
 				});
 	    	}
