@@ -4,6 +4,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -16,6 +18,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
+
+
 import java.util.concurrent.CountDownLatch;//
 
 
@@ -25,9 +29,11 @@ public class UI extends Application{
    // Scene scene = new Scene(pane, 500, 500);
 	private Scene userInterface = new Scene(pane, 200, 150);
 	private TextField inputField = new TextField();
-    private TextField outputField = new TextField();
+    private TextArea outputField = new TextArea();
+    private ScrollPane scrollPane = new ScrollPane();
 	private Text text;
 	private Stage stage = new Stage();
+	private SearchTopicButton searchButton = new SearchTopicButton();
 	ObservableList<String> options = FXCollections.observableArrayList(
 	        "one",
 	        "two"
@@ -52,28 +58,33 @@ public class UI extends Application{
 //        pane.setCenter(label);
 //
 //        stage.show();
-		outputField.setEditable(false);        
+		outputField.setEditable(false);   
         configure(stage);
 	}
 	
 	private void configure(Stage stage) {
-    	stage.setTitle("Translator");
+    	stage.setTitle("Wikipedia Edits");
         stage.setScene(new Scene(createRoot()));
-        stage.sizeToScene();
+        stage.setWidth(500);
+        stage.setHeight(800);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+        outputField.setPrefHeight(stage.getHeight()-inputField.getHeight()-searchButton.getHeight());
         stage.show();		
 	}
 	
 	private Pane createRoot() {
     	VBox root = new VBox();
         root.getChildren().add(inputField);
-        root.getChildren().add(new SearchTopicButton());
-        root.getChildren().add(outputField);
-        root.getChildren().add(optionsComboBox);
+        root.getChildren().add(searchButton);
+        root.getChildren().add(scrollPane);
+        //root.getChildren().add(optionsComboBox);
         return root;
 	}
 	
 	public void outputData(String data){
 		outputField.setText(data);
+		scrollPane.setContent(outputField);
 	}
 	
 	 public static void setUI(UI UI0) {
@@ -90,6 +101,8 @@ public class UI extends Application{
 					@Override
 					public void handle(ActionEvent event) {
 						revisionsHandler.createNewSetOfRevisions(inputField.getText());
+						String outputOfRevisions = revisionsHandler.getPrintableStringOfRevisions();
+						outputData(outputOfRevisions);
 					}
 				});
 	    	}
