@@ -34,6 +34,7 @@ public class UI extends Application{
 	    );
 	final ComboBox optionsComboBox = new ComboBox(options);
 	
+	private RevisionsHandler revisionsHandler = new RevisionsHandler();
 	public static UI UI = null;
 	 public static final CountDownLatch latch = new CountDownLatch(1);//
 	
@@ -88,7 +89,7 @@ public class UI extends Application{
 	    		setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
-						//ui connect to
+						revisionsHandler.createNewSetOfRevisions(inputField.getText());
 					}
 				});
 	    	}
