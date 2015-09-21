@@ -19,12 +19,8 @@ public class XMLParser {
 	public static ArrayList<String> trimStrings(String[] s){
 		ArrayList<String> revisionData = new ArrayList<String>();
 		for (int i = 1; i < s.length; i++){
-			System.out.println(s[i]);
-			System.out.println(s[i].length());
 			int userStart = s[i].indexOf("user=")+6;
-			System.out.println(userStart);
 			int userEnd = s[i].indexOf("\"", userStart);
-			System.out.println(userEnd);
 			int dateStart = s[i].indexOf("timestamp=")+11;
 			int dateEnd = dateStart+10;
 			int timeStart = dateEnd+1;
@@ -36,7 +32,6 @@ public class XMLParser {
 			revisionData.add(s[i].substring(timeStart, timeEnd));
 			revisionData.add(s[i].substring(commentStart, commentEnd));
 		}
-		System.out.println(revisionData);
 		return revisionData;
 	}
 	
