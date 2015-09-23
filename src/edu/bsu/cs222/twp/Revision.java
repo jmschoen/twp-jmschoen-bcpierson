@@ -21,4 +21,8 @@ public class Revision {
 				"\n\tTime: " + time +
 				"\n\tComment: " + comment +"\n";
 	}
+	
+	public String getUsername(){
+		return username;
+	}
 }

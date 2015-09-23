@@ -93,28 +93,17 @@ public class UI extends Application{
 	    }
 	
 	 private class SearchTopicButton extends Button {
-	    	//private PirateTranslator pirateTranslator = new PirateTranslator();
-	    	//private IdentityTranslator identityTranslator = new IdentityTranslator();
 	    	SearchTopicButton() {
 	    		super("Search");
 	    		setOnAction(new EventHandler<ActionEvent>() {
 					@Override
 					public void handle(ActionEvent event) {
 						revisionsHandler.createNewSetOfRevisions(inputField.getText());
-						String outputOfRevisions = revisionsHandler.getPrintableStringOfRevisions();
+						String outputOfRevisions = revisionsHandler.getPrintableStringOfRevisions("# of edits");
 						outputData(outputOfRevisions);
 					}
 				});
 	    	}
 	    }
 	 
-	 
-	 public static UI waitForStartUpTest() {
-	        try {
-	            latch.await();
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
-	        }
-	        return UI;
-	    }
 }

@@ -1,12 +1,6 @@
 package edu.bsu.cs222.twp;
 
-import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-
-import org.xml.sax.SAXException;
 
 public class RevisionsHandler {
 	private ArrayList<Revision> revisions;
@@ -16,11 +10,11 @@ public class RevisionsHandler {
 		revisions = XMLParser.parseXML(output);
 	}
 	
-	public String getPrintableStringOfRevisions(){
-		String s = "";
-		for(Revision r: revisions){
-			s += r.toString();
-			}
-		return s;
+	public String getPrintableStringOfRevisions(String sortType){
+		if(sortType.equalsIgnoreCase("Date"))
+			return RevisionsSorter.sortByDate(revisions);
+		else if(sortType.equalsIgnoreCase("# of Edits"))
+			return RevisionsSorter.sortByNumberOfEdits(revisions);
+		return "This string should never be returned.";
 	}
 }
