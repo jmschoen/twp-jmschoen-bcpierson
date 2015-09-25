@@ -11,9 +11,9 @@ public class RevisionsHandler {
 	}
 	
 	public String getPrintableStringOfRevisions(String sortType){
-		if(sortType.equalsIgnoreCase("Date"))
+		if(sortType.equalsIgnoreCase("Sort by date"))
 			return RevisionsSorter.sortByDate(revisions);
-		else if(sortType.equalsIgnoreCase("# of Edits"))
+		else if(sortType.equalsIgnoreCase("Sort by # of edits"))
 			return RevisionsSorter.sortByNumberOfEdits(revisions);
 		return "This string should never be returned.";
 	}
