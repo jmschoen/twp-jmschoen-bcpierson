@@ -4,17 +4,19 @@ import java.util.ArrayList;
 
 public class RevisionsHandler {
 	private ArrayList<Revision> revisions;
+	private String titleAndRedirect;
 	
 	public void createNewSetOfRevisions(String pageName){
 		String output = WikipediaConnection.getXMLFileAsString(pageName);
-		revisions = XMLParser.parseXML(output);
+		titleAndRedirect = XMLParser.getRedirectAndTitle(output);
+		revisions = XMLParser.createRevisionsFromXML(output);
 	}
 	
 	public String getPrintableStringOfRevisions(String sortType){
 		if(sortType.equalsIgnoreCase("Sort by date"))
-			return RevisionsSorter.sortByDate(revisions);
+			return titleAndRedirect + RevisionsSorter.sortByDate(revisions);
 		else if(sortType.equalsIgnoreCase("Sort by # of edits"))
-			return RevisionsSorter.sortByNumberOfEdits(revisions);
+			return titleAndRedirect + RevisionsSorter.sortByNumberOfEdits(revisions);
 		return "This string should never be returned.";
 	}
 }
