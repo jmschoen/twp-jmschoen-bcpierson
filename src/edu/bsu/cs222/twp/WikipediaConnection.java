@@ -1,10 +1,12 @@
 package edu.bsu.cs222.twp;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -22,9 +24,8 @@ import javax.xml.transform.stream.StreamResult;
 public class WikipediaConnection {
 	
 	public static String getXMLFileAsString(String search){
-		//create URL
 		try{
-		URLConnection connection = connectToWikipedia(new URL("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects="));
+		URLConnection connection = connectToWikipedia(createURL(search));
 		Document document = readXmlDocumentFrom(connection);
 		return transformXMLDocumentToString(document);
 		}	catch (IOException | ParserConfigurationException | SAXException | TransformerException exception){
@@ -33,6 +34,13 @@ public class WikipediaConnection {
 			return null;
 		}
 	}
+	
+	private static URL createURL(String search) throws MalformedURLException, UnsupportedEncodingException{
+		//URL sampleURL = new URL("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects=");
+		String urlSearchInsert = URLEncoder.encode(search, "UTF-8");
+		return new URL("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=" + urlSearchInsert + "&redirects=");		
+	}
+	
 	private static URLConnection connectToWikipedia(URL url){
 		//URL url = new URL(
 		//		"https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects=");

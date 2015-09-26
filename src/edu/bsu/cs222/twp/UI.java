@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -35,12 +36,16 @@ public class UI extends Application {
 		stage.setScene(new Scene(createRoot()));
 		stage.setWidth(500);
 		stage.setHeight(800);
-		// optionsComboBox.setLayoutX(stage.getWidth()-optionsComboBox.getWidth());
-		// optionsComboBox.setLayoutY(searchButton.getLayoutY());
 		scrollPane.setFitToHeight(true);
 		scrollPane.setFitToWidth(true);
 		outputField.setPrefHeight(stage.getHeight() - inputField.getHeight() - searchButton.getHeight());
 		stage.show();
+	}
+	
+	private void lockdownUI(boolean state){
+		inputField.setEditable(!state);
+		searchButton.setDisable(state);
+		optionsComboBox.setDisable(state);
 	}
 
 	private Pane createRoot() {
@@ -58,10 +63,12 @@ public class UI extends Application {
 		searchButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
+				lockdownUI(true);
 				revisionsHandler.createNewSetOfRevisions(inputField.getText());
 				String outputOfRevisions = revisionsHandler
 						.getPrintableStringOfRevisions(optionsComboBox.getSelectionModel().getSelectedItem());
 				outputData(outputOfRevisions);
+				lockdownUI(false);
 			}
 		});
 	}
