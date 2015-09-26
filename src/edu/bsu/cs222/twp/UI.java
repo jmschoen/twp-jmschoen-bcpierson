@@ -33,6 +33,7 @@ public class UI extends Application {
 		stage.setTitle("Wikipedia Edits");
 		configureSearchTopicButton();
 		configureOptionsComboBox();
+		configureInputField();
 		stage.setScene(new Scene(createRoot()));
 		stage.setWidth(500);
 		stage.setHeight(800);
@@ -41,8 +42,8 @@ public class UI extends Application {
 		outputField.setPrefHeight(stage.getHeight() - inputField.getHeight() - searchButton.getHeight());
 		stage.show();
 	}
-	
-	private void lockdownUI(boolean state){
+
+	private void lockdownUI(boolean state) {
 		inputField.setEditable(!state);
 		searchButton.setDisable(state);
 		optionsComboBox.setDisable(state);
@@ -63,18 +64,26 @@ public class UI extends Application {
 		searchButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				lockdownUI(true);
-				revisionsHandler.createNewSetOfRevisions(inputField.getText());
-				String outputOfRevisions = revisionsHandler
-						.getPrintableStringOfRevisions(optionsComboBox.getSelectionModel().getSelectedItem());
-				outputData(outputOfRevisions);
-				lockdownUI(false);
+				if (inputField.getText().equals("")) {
+					outputData("Please enter a search term!");
+				} else {
+					lockdownUI(true);
+					revisionsHandler.createNewSetOfRevisions(inputField.getText());
+					String outputOfRevisions = revisionsHandler
+							.getPrintableStringOfRevisions(optionsComboBox.getSelectionModel().getSelectedItem());
+					outputData(outputOfRevisions);
+					lockdownUI(false);
+				}
 			}
 		});
 	}
 
-	private void configureOptionsComboBox(){
-		 optionsComboBox.getItems().addAll("Sort by date","Sort by # of edits");
-		 optionsComboBox.setValue("Sort by date");
+	private void configureOptionsComboBox() {
+		optionsComboBox.getItems().addAll("Sort by date", "Sort by # of edits");
+		optionsComboBox.setValue("Sort by date");
+	}
+	
+	private void configureInputField(){
+		inputField.setText("Page Title");
 	}
 }
