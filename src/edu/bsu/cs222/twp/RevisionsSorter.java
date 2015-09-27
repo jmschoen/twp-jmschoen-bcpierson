@@ -20,26 +20,27 @@ public class RevisionsSorter {
 		String[] arrayOfEditors = bubbleSortHandler.bubbleSortHashMap(editors);
 		return createStringOfSortedRevisions(editors, arrayOfEditors);
 	}
-	//new name?
+	
 	private static HashMap<String, Integer> createHashMapOfEditorsWithNumberOfEdits(ArrayList<Revision> revisions){
-		HashMap<String, Integer> editors = new HashMap<String, Integer>(); //rename editors
+		HashMap<String, Integer> hashMapOfEditors = new HashMap<String, Integer>();
 		for(Revision r: revisions){
-			String name = r.getUsername(); //
-			if(editors.containsKey(name)){
-				editors.replace(name, editors.get(name)+1);
+			String username = r.getUsername();
+			if(hashMapOfEditors.containsKey(username)){
+				int numberOfRevisions = hashMapOfEditors.get(username);
+				hashMapOfEditors.replace(username, numberOfRevisions+1);
 			}
 			else{
-				editors.put(name, 1);
+				hashMapOfEditors.put(username, 1);
 			}
 		}
-		return editors;
+		return hashMapOfEditors;
 	}
 	
 	private static String createStringOfSortedRevisions(HashMap<String, Integer> editors, String[] arrayOfEditors){
-		String output = "";
-		for(String name: arrayOfEditors){
-			output = output + "Name: " + name + "\n\tNumber of Edits: " + editors.get(name) + "\n";
+		String editorsWithNumberOfRevisions = "";
+		for(String username: arrayOfEditors){
+			editorsWithNumberOfRevisions = editorsWithNumberOfRevisions + "Name: " + username + "\n\tNumber of Edits: " + editors.get(username) + "\n";
 		}
-		return output;
+		return editorsWithNumberOfRevisions;
 	}
 }

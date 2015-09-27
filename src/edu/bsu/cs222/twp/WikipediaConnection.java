@@ -28,32 +28,24 @@ public class WikipediaConnection {
 		URLConnection connection = connectToWikipedia(createURL(search));
 		Document document = readXmlDocumentFrom(connection);
 		return transformXMLDocumentToString(document);
-		}	catch (IOException | ParserConfigurationException | SAXException | TransformerException exception){
-			//UI.send Generic error message
-			exception.printStackTrace();
-			return null;
+		}catch (IOException | ParserConfigurationException | SAXException | TransformerException exception){
+			//This would be the only error
+			String networkFailureString = "There was an issue connecting to the Wikipedia network.\n\tPlease try again later.";
+			return networkFailureString;
 		}
 	}
 	
 	private static URL createURL(String search) throws MalformedURLException, UnsupportedEncodingException{
-		//URL sampleURL = new URL("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects=");
 		String urlSearchInsert = URLEncoder.encode(search, "UTF-8");
 		return new URL("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=" + urlSearchInsert + "&redirects=");		
 	}
 	
-	private static URLConnection connectToWikipedia(URL url){
-		//URL url = new URL(
-		//		"https://en.wikipedia.org/w/api.php?action=query&prop=revisions&format=xml&rvprop=timestamp%7Cuser%7Ccomment&rvlimit=30&titles=peach&redirects=");
+	private static URLConnection connectToWikipedia(URL url) throws IOException {
 		URLConnection connection = null;
-		try {
 			connection = url.openConnection();
 		connection.setRequestProperty("User-Agent",
 				"CS222TwoWeekProject/0.0.1 (http://www.cs.bsu.edu/homepages/pvg/courses/cs222Fa15/#!/two-week-project; bcpierson@bsu.edu)");
 		connection.connect();
-		} catch (IOException e) {
-			//UI.sendServerErrorMessage
-			e.printStackTrace();
-		}
 		return connection;
 	}
 	
